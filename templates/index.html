@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Clause Extractor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚖️ Contract Clause Extractor</h1>
+            <p>Upload a contract PDF to automatically identify key clauses</p>
+        </header>
+
+        <div class="upload-section">
+            <form id="uploadForm">
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput" accept=".pdf" required>
+                    <label for="fileInput" class="file-label">
+                        <span id="fileName">Choose PDF file...</span>
+                    </label>
+                </div>
+                <button type="submit" id="analyzeBtn">Analyze Contract</button>
+            </form>
+        </div>
+
+        <div id="loadingSpinner" class="spinner" style="display: none;">
+            <div class="spinner-circle"></div>
+            <p>Analyzing contract...</p>
+        </div>
+
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <div id="results" class="results-section" style="display: none;">
+            <h2>Analysis Results</h2>
+            <div class="summary">
+                <p><strong>File:</strong> <span id="resultFileName"></span></p>
+                <p><strong>Total Clauses Found:</strong> <span id="totalClauses"></span></p>
+            </div>
+            <div id="clausesContainer"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
