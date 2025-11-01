@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract Clause Extractor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
     <div class="container">
         <header>
-            <h1>⚖️ Contract Clause Extractor</h1>
-            <p>Upload a contract PDF to automatically identify key clauses</p>
+            <h1>Contract Clause Extractor</h1>
+            <p>AI-powered contract analysis for legal professionals</p>
         </header>
 
         <div class="upload-section">
@@ -35,9 +39,60 @@
         <div id="results" class="results-section" style="display: none;">
             <h2>Analysis Results</h2>
             <div class="summary">
-                <p><strong>File:</strong> <span id="resultFileName"></span></p>
-                <p><strong>Total Clauses Found:</strong> <span id="totalClauses"></span></p>
+                <div class="summary-item">
+                    <span class="summary-label">Document</span>
+                    <span class="summary-value" id="resultFileName"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Clauses Identified</span>
+                    <span class="summary-value" id="totalClauses"></span>
+                </div>
             </div>
+            
+            <!-- AI Overview Section -->
+            <div class="overview-toggle-container">
+                <button id="overviewToggle" class="toggle-btn">
+                    <span>AI Overview</span>
+                    <svg class="toggle-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="overviewSection" class="overview-section" style="display: none;">
+                <div class="overview-content">
+                    <div class="overview-item">
+                        <h3>Summary</h3>
+                        <p id="overviewSummary"></p>
+                    </div>
+                    
+                    <div class="overview-item" id="partiesContainer" style="display: none;">
+                        <h3>Involved Parties</h3>
+                        <div id="partiesList" class="parties-list"></div>
+                    </div>
+                    
+                    <div class="overview-item" id="keyPointsContainer" style="display: none;">
+                        <h3>Key Points</h3>
+                        <ul id="keyPointsList" class="key-points-list"></ul>
+                    </div>
+                    
+                    <div class="overview-item" id="concernsContainer" style="display: none;">
+                        <h3>Potential Concerns</h3>
+                        <ul id="concernsList" class="concerns-list"></ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Clauses Toggle -->
+            <div class="overview-toggle-container">
+                <button id="clausesToggle" class="toggle-btn">
+                    <span>Identified Clauses</span>
+                    <svg class="toggle-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
             <div id="clausesContainer"></div>
         </div>
     </div>

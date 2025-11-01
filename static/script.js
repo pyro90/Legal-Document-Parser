@@ -10,6 +10,65 @@ const clausesContainer = document.getElementById('clausesContainer');
 const resultFileName = document.getElementById('resultFileName');
 const totalClauses = document.getElementById('totalClauses');
 
+// Overview elements
+const overviewToggle = document.getElementById('overviewToggle');
+const overviewSection = document.getElementById('overviewSection');
+const clausesToggle = document.getElementById('clausesToggle');
+
+// Toggle functionality
+overviewToggle.addEventListener('click', () => {
+    const isVisible = overviewSection.style.display === 'block';
+    overviewSection.style.display = isVisible ? 'none' : 'block';
+    overviewToggle.classList.toggle('active');
+});
+
+clausesToggle.addEventListener('click', () => {
+    const isVisible = clausesContainer.style.display === 'grid';
+    clausesContainer.style.display = isVisible ? 'none' : 'grid';
+    clausesToggle.classList.toggle('active');
+});
+
+// Custom cursor
+const cursor = document.querySelector('.cursor');
+const cursorFollower = document.querySelector('.cursor-follower');
+
+let mouseX = 0;
+let mouseY = 0;
+let cursorX = 0;
+let cursorY = 0;
+let followerX = 0;
+let followerY = 0;
+
+// Update cursor position
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+// Animate cursor
+function animateCursor() {
+    // Smooth following effect
+    cursorX += (mouseX - cursorX) * 0.3;
+    cursorY += (mouseY - cursorY) * 0.3;
+    followerX += (mouseX - followerX) * 0.1;
+    followerY += (mouseY - followerY) * 0.1;
+    
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+    cursorFollower.style.left = followerX + 'px';
+    cursorFollower.style.top = followerY + 'px';
+    
+    requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Cursor hover effect on interactive elements
+const interactiveElements = document.querySelectorAll('button, a, input[type="file"] + label');
+interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
 // Update file label when file is selected
 fileInput.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
@@ -125,19 +184,24 @@ function createClauseElement(clauseType, sentences) {
     
     const count = document.createElement('div');
     count.className = 'clause-count';
-    count.textContent = `${sentences.length} instance${sentences.length > 1 ? 's' : ''}`;
+    count.textContent = `${sentences.length} found`;
     
     header.appendChild(title);
     header.appendChild(count);
     container.appendChild(header);
+    
+    // Create content container
+    const content = document.createElement('div');
+    content.className = 'clause-content';
     
     // Create clause items
     sentences.forEach(sentence => {
         const item = document.createElement('div');
         item.className = 'clause-item';
         item.textContent = sentence;
-        container.appendChild(item);
+        content.appendChild(item);
     });
     
+    container.appendChild(content);
     return container;
 }
